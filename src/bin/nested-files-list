@@ -1,0 +1,32 @@
+#!/bin/bash
+
+mode="$1"
+ext="$2"
+
+root="."
+
+if [[ "$mode" == "-d" && -n "$2" ]]; then
+  root="$2"
+elif [[ "$mode" == "-f" && -n "$3" ]]; then
+  root="$3"
+fi
+
+if [[ "$root" != "/" ]]; then
+  root="${root%/}"
+fi
+
+if [[ "$mode" == "-d" ]]; then
+  find "$root" -type d | sed "s|^$root/||" | sed "s|^$root\$||" | grep -v '^$' | sort
+
+  elif [[ "$mode" == "-f" && -n "$ext" ]]; then
+  find "$root" -type f -name "*.$ext" \
+  | sed "s|^$root/||" \
+  | sed "s/\.$ext$//" \
+  | sort
+
+else
+  echo "Usage:"
+  echo "  $0 -d [rootdir]              # list subdirectories"
+  echo "  $0 -f <extension> [rootdir]  # list files with given extension (without extension)"
+  exit 1
+fi
