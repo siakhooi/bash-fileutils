@@ -1,5 +1,5 @@
 Name:           siakhooi-fileutils
-Version:        0.1.0
+Version:        0.2.0
 Release:        1%{?dist}
 Summary:        common file utils
 
@@ -22,6 +22,7 @@ common file utils
 %files
 %license LICENSE
 %{_bindir}/nested-files-list
+%{_bindir}/delete-directory-if-empty
 
 %changelog
 * Sun Sep 28 2025 Siak Hooi <siakhooi@gmail.com> - 0.1.0

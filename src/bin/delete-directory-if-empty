@@ -1,0 +1,33 @@
+#!/bin/bash
+
+usage() {
+  echo "Usage: $(basename "$0") [-h] directory..."
+}
+while getopts "h" arg; do
+  case $arg in
+    h)
+      usage
+      exit 0
+    ;;
+    *)
+      usage
+      exit 1
+    ;;
+  esac
+done
+shift $((OPTIND - 1))
+if [[ $# -eq 0 ]]; then
+  usage
+  exit 0
+fi
+
+set -e
+
+for targetDir in "$@"; do
+  if [[ -d $targetDir ]]; then
+    find "$targetDir" -empty -type d -print -delete
+  else
+    echo "Directory $targetDir does not exist, skipping." >&2
+    continue
+  fi
+done
