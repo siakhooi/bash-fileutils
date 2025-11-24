@@ -1,0 +1,56 @@
+#!/bin/bash
+
+usage() {
+	echo "Usage: $(basename "$0") [-h] [-w word_search] [-n word_search]"
+  echo "  -h  Show this help message"
+  echo "  -w  Search for a word within file contents"
+  echo "  -n  Search for a word within filenames"
+}
+action=
+while getopts "hw:n:" arg; do
+	case $arg in
+	h)
+		usage
+		exit 0
+		;;
+	w)
+    if [[ -n "$action" ]]; then
+      echo "Error: Only one of -w or -n can be specified."
+      usage
+      exit 1
+    fi
+		action=find-in-files
+		word="$OPTARG"
+		;;
+	n)
+    if [[ -n "$action" ]]; then
+      echo "Error: Only one of -w or -n can be specified."
+      usage
+      exit 1
+    fi
+		action=find-in-filenames
+		word="$OPTARG"
+		;;
+	*)
+		usage
+		exit 1
+		;;
+	esac
+done
+shift $((OPTIND - 1))
+if [[ $# -ne 0 ]]; then
+	usage
+	exit 0
+fi
+
+if [[ -z $action ]]; then
+	usage
+	exit 0
+fi
+
+if [[ $action == "find-in-files" ]]; then
+	grep --color --files-with-matches --recursive "$word" .
+
+elif [[ $action == "find-in-filenames" ]]; then
+	find . -name "$word"
+fi

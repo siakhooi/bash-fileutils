@@ -1,5 +1,5 @@
 Name:           siakhooi-fileutils
-Version:        0.3.0
+Version:        0.4.0
 Release:        1%{?dist}
 Summary:        common file utils
 
@@ -21,11 +21,15 @@ common file utils
 
 %files
 %license LICENSE
-%{_bindir}/nested-files-list
 %{_bindir}/delete-directory-if-empty
+%{_bindir}/find-files
 %{_bindir}/is-not-empty
+%{_bindir}/nested-files-list
 
 %changelog
+* Mon Nov 24 2025 Siak Hooi <siakhooi@gmail.com> - 0.4.0
+- add find-files
+
 * Thu Nov 13 2025 Siak Hooi <siakhooi@gmail.com> - 0.3.0
 - add is-not-empty
 
