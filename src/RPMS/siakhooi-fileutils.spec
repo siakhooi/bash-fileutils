@@ -1,5 +1,5 @@
 Name:           siakhooi-fileutils
-Version:        0.4.0
+Version:        0.5.0
 Release:        1%{?dist}
 Summary:        common file utils
 
@@ -21,12 +21,16 @@ common file utils
 
 %files
 %license LICENSE
+%{_bindir}/assert-files
 %{_bindir}/delete-directory-if-empty
 %{_bindir}/find-files
 %{_bindir}/is-not-empty
 %{_bindir}/nested-files-list
 
 %changelog
+* Wed Dec 17 2025 Siak Hooi <siakhooi@gmail.com> - 0.5.0
+- add assert-files
+
 * Mon Nov 24 2025 Siak Hooi <siakhooi@gmail.com> - 0.4.0
 - add find-files
 

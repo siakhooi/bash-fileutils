@@ -1,0 +1,68 @@
+#!/bin/bash
+
+usage() {
+	echo "Usage: $(basename "$0") [-h] [-e file] [-E file] [-d directory] [-D directory]"
+	echo " -h       : show this help message"
+	echo " -e file  : file must exists"
+	echo " -E file  : file must not exists"
+	echo " -d dir   : directory must exists"
+	echo " -D dir   : directory must not exists"
+}
+error=0
+while getopts "he:E:d:D:" arg; do
+	case $arg in
+	h)
+		usage
+		exit 0
+		;;
+	e)
+		file="$OPTARG"
+		if [[ ! -f $file ]]; then
+			echo.error "❌ File not found: $file"
+			((error++))
+		else
+			echo "✅ File exists: $file"
+		fi
+		;;
+	E)
+		file="$OPTARG"
+		if [[ -f $file ]]; then
+			echo.error "❌ File found: $file"
+			((error++))
+		else
+			echo "✅ File not exists: $file"
+		fi
+		;;
+	d)
+		dir="$OPTARG"
+		if [[ ! -d $dir ]]; then
+			echo.error "❌ Directory not found: $dir"
+			((error++))
+		else
+			echo "✅ Directory exists: $dir"
+		fi
+		;;
+	D)
+		dir="$OPTARG"
+		if [[ -d $dir ]]; then
+			echo.error "❌ Directory found: $dir"
+			((error++))
+		else
+			echo "✅ Directory not exists: $dir"
+		fi
+		;;
+	*)
+    echo.error "❌ Invalid option: -$OPTARG"
+		usage
+		((error++))
+		;;
+	esac
+done
+shift $((OPTIND - 1))
+if [[ $# -ne 0 ]]; then
+  echo.error "❌ Unexpected arguments: $*"
+	usage
+	((error++))
+fi
+
+exit $error
