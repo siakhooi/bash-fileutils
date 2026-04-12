@@ -1,5 +1,5 @@
 Name:           siakhooi-fileutils
-Version:        0.5.0
+Version:        0.6.0
 Release:        1%{?dist}
 Summary:        common file utils
 
@@ -28,6 +28,9 @@ common file utils
 %{_bindir}/nested-files-list
 
 %changelog
+* Sun Apr 12 2025 Siak Hooi <siakhooi@gmail.com> - 0.6.0
+- assert-files add -s silent mode
+
 * Wed Dec 17 2025 Siak Hooi <siakhooi@gmail.com> - 0.5.0
 - add assert-files
 

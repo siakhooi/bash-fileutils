@@ -1,58 +1,81 @@
 #!/bin/bash
 
 usage() {
-	echo "Usage: $(basename "$0") [-h] [-e file] [-E file] [-d directory] [-D directory]"
+	echo "Usage: $(basename "$0") [-h] [-s] [-e file] [-E file] [-d directory] [-D directory]"
 	echo " -h       : show this help message"
 	echo " -e file  : file must exists"
 	echo " -E file  : file must not exists"
 	echo " -d dir   : directory must exists"
 	echo " -D dir   : directory must not exists"
+  echo " -s       : silent mode, only output errors"
 }
+silent=0
 error=0
-while getopts "he:E:d:D:" arg; do
+while getopts "hse:E:d:D:" arg; do
 	case $arg in
 	h)
 		usage
 		exit 0
 		;;
+	s)
+		silent=1
+		;;
 	e)
 		file="$OPTARG"
 		if [[ ! -f $file ]]; then
-			echo.error "❌ File not found: $file"
+			if [[ $silent -eq 0 ]]; then
+				echo.error "❌ File not found: $file"
+			fi
 			((error++))
 		else
-			echo "✅ File exists: $file"
+			if [[ $silent -eq 0 ]]; then
+				echo "✅ File exists: $file"
+			fi
 		fi
 		;;
 	E)
 		file="$OPTARG"
 		if [[ -f $file ]]; then
-			echo.error "❌ File found: $file"
+			if [[ $silent -eq 0 ]]; then
+				echo.error "❌ File found: $file"
+			fi
 			((error++))
 		else
-			echo "✅ File not exists: $file"
+			if [[ $silent -eq 0 ]]; then
+				echo "✅ File not exists: $file"
+			fi
 		fi
 		;;
 	d)
 		dir="$OPTARG"
 		if [[ ! -d $dir ]]; then
-			echo.error "❌ Directory not found: $dir"
+			if [[ $silent -eq 0 ]]; then
+				echo.error "❌ Directory not found: $dir"
+			fi
 			((error++))
 		else
-			echo "✅ Directory exists: $dir"
+			if [[ $silent -eq 0 ]]; then
+				echo "✅ Directory exists: $dir"
+			fi
 		fi
 		;;
 	D)
 		dir="$OPTARG"
 		if [[ -d $dir ]]; then
-			echo.error "❌ Directory found: $dir"
+			if [[ $silent -eq 0 ]]; then
+				echo.error "❌ Directory found: $dir"
+			fi
 			((error++))
 		else
-			echo "✅ Directory not exists: $dir"
+			if [[ $silent -eq 0 ]]; then
+				echo "✅ Directory not exists: $dir"
+			fi
 		fi
 		;;
 	*)
-    echo.error "❌ Invalid option: -$OPTARG"
+    if [[ $silent -eq 0 ]]; then
+      echo.error "❌ Invalid option: -$OPTARG"
+    fi
 		usage
 		((error++))
 		;;
@@ -60,7 +83,9 @@ while getopts "he:E:d:D:" arg; do
 done
 shift $((OPTIND - 1))
 if [[ $# -ne 0 ]]; then
-  echo.error "❌ Unexpected arguments: $*"
+  if [[ $silent -eq 0 ]]; then
+    echo.error "❌ Unexpected arguments: $*"
+  fi
 	usage
 	((error++))
 fi
