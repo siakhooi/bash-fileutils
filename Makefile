@@ -16,17 +16,17 @@ un-all: undeploy clean
 all-deb: clean set-version build-deb deb-install
 all-rpm: clean set-version build-rpm rpm-install
 
-commit:
-	scripts/git-commit-and-push.sh
-
 release:
 	scripts/release.sh
-
 deb-install:
-	apt install ./*.deb
+	sudo apt install ./*.deb
 deb-uninstall:
-	apt remove -y siakhooi-fileutils
+	sudo apt remove -y siakhooi-fileutils
 rpm-install:
-	rpm -i ./*.rpm
+	sudo rpm -i ./*.rpm
 rpm-uninstall:
-	rpm -e siakhooi-fileutils
+	sudo rpm -e siakhooi-fileutils
+docker-build-rpm:
+	docker run --rm -v $(CURDIR):/workspaces docker.io/siakhooi/devcontainer:rpm scripts/build-rpms.sh
+docker-build-deb:
+	docker run --rm -v $(CURDIR):/workspaces docker.io/siakhooi/devcontainer:deb scripts/build-deb.sh
