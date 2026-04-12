@@ -28,7 +28,7 @@ common file utils
 %{_bindir}/nested-files-list
 
 %changelog
-* Sun Apr 12 2025 Siak Hooi <siakhooi@gmail.com> - 0.6.0
+* Sun Apr 12 2026 Siak Hooi <siakhooi@gmail.com> - 0.6.0
 - assert-files add -s silent mode
 
 * Wed Dec 17 2025 Siak Hooi <siakhooi@gmail.com> - 0.5.0
